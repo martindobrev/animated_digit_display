@@ -31,13 +31,16 @@ class _SingleDigitState extends State<SingleDigit> {
 
     return Container(
       decoration: _boxDecoration,
-      child: Transform.translate(
-        offset: Offset(0, - value * digitSize.height),
-        child: Column(
-          children: <Widget>[
-            for (var i = 0; i < 10; i++)
-              Text(i.toString(), style: _textStyle)   // ADD STYLE TO THE TEXT 
-          ],
+      child: ClipRect(
+        clipper: CustomDigitClipper(digitSize),
+          child: Transform.translate(
+          offset: Offset(0, - value * digitSize.height),
+          child: Column(
+            children: <Widget>[
+              for (var i = 0; i < 10; i++)
+                Text(i.toString(), style: _textStyle)   // ADD STYLE TO THE TEXT 
+            ],
+          ),
         ),
       ),
     );
@@ -54,5 +57,21 @@ class _SingleDigitState extends State<SingleDigit> {
     painter.textScaleFactor = 1.0;
     painter.layout();
     return painter.size;
+  }
+}
+
+class CustomDigitClipper extends CustomClipper<Rect> {
+  CustomDigitClipper(this.digitSize);
+  final Size digitSize;
+
+  @override
+  Rect getClip(Size size) {
+    return Rect.fromPoints(
+        Offset.zero, Offset(digitSize.width, digitSize.height));
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Rect> oldClipper) {
+    return false;
   }
 }

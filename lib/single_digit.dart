@@ -31,15 +31,19 @@ class _SingleDigitState extends State<SingleDigit> {
 
     return Container(
       decoration: _boxDecoration,
-      child: ClipRect(
-        clipper: CustomDigitClipper(digitSize),
-          child: Transform.translate(
-          offset: Offset(0, - value * digitSize.height),
-          child: Column(
-            children: <Widget>[
-              for (var i = 0; i < 10; i++)
-                Text(i.toString(), style: _textStyle)   // ADD STYLE TO THE TEXT 
-            ],
+      child: SizedOverflowBox(
+        alignment: Alignment.topCenter,
+        size: digitSize,
+        child: ClipRect(
+          clipper: CustomDigitClipper(digitSize),
+            child: Transform.translate(
+            offset: Offset(0, - value * digitSize.height),
+            child: Column(
+              children: <Widget>[
+                for (var i = 0; i < 10; i++)
+                  Text(i.toString(), style: _textStyle)   // ADD STYLE TO THE TEXT 
+              ],
+            ),
           ),
         ),
       ),

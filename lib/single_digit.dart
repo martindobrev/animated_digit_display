@@ -22,17 +22,37 @@ class _SingleDigitState extends State<SingleDigit> {
 
   final TextStyle _textStyle;
   final BoxDecoration _boxDecoration;
-  
+
   @override
   Widget build(BuildContext context) {
+
+    final Size digitSize = _getSingleDigitSize();
+    final value = 3; 
+
     return Container(
       decoration: _boxDecoration,
-      child: Column(
-        children: <Widget>[
-          for (var i = 0; i < 10; i++)
-            Text(i.toString(), style: _textStyle)   // ADD STYLE TO THE TEXT 
-        ],
+      child: Transform.translate(
+        offset: Offset(0, - value * digitSize.height),
+        child: Column(
+          children: <Widget>[
+            for (var i = 0; i < 10; i++)
+              Text(i.toString(), style: _textStyle)   // ADD STYLE TO THE TEXT 
+          ],
+        ),
       ),
     );
+  }
+
+  ///
+  /// Calculates the size of a single digit based on the current text style
+  ///
+  _getSingleDigitSize() {
+    final painter = TextPainter();
+    painter.text = TextSpan(style: _textStyle, text: '0');
+    painter.textDirection = TextDirection.ltr;
+    painter.textAlign = TextAlign.left;
+    painter.textScaleFactor = 1.0;
+    painter.layout();
+    return painter.size;
   }
 }

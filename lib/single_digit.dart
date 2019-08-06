@@ -4,30 +4,49 @@ class SingleDigit extends StatefulWidget {
 
   final TextStyle textStyle;
   final BoxDecoration boxDecoration;
+  final int initialValue;
+
+  _SingleDigitState _state;
 
   SingleDigit({ 
     this.boxDecoration: const BoxDecoration(color: Colors.black), 
-    this.textStyle: const TextStyle(color: Colors.grey, fontSize: 30)
+    this.textStyle: const TextStyle(color: Colors.grey, fontSize: 30),
+    this.initialValue: 0
   });
   
   @override
   State<StatefulWidget> createState() {
-    return new _SingleDigitState(textStyle, boxDecoration);
+    _state = new _SingleDigitState(textStyle, boxDecoration, 0, this.initialValue);
+    return _state;
+  }
+  
+  setValue(newValue) {
+    if (_state != null) {
+      _state._setValue(newValue);
+    }
   }
 }
 
 class _SingleDigitState extends State<SingleDigit> {
 
-  _SingleDigitState(this._textStyle, this._boxDecoration);
+  _SingleDigitState(this._textStyle, this._boxDecoration, this.previousValue, this.currentValue);
 
   final TextStyle _textStyle;
   final BoxDecoration _boxDecoration;
+
+  int previousValue;
+  int currentValue;
+
+  _setValue(int newValue) {
+    this.previousValue = this.currentValue;
+    this.currentValue = newValue;
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
 
     final Size digitSize = _getSingleDigitSize();
-    final value = 3; 
 
     return Container(
       decoration: _boxDecoration,
@@ -37,7 +56,7 @@ class _SingleDigitState extends State<SingleDigit> {
         child: ClipRect(
           clipper: CustomDigitClipper(digitSize),
             child: Transform.translate(
-            offset: Offset(0, - value * digitSize.height),
+            offset: Offset(0, - this.currentValue * digitSize.height),
             child: Column(
               children: <Widget>[
                 for (var i = 0; i < 10; i++)

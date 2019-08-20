@@ -19,7 +19,7 @@ class SingleDigit extends StatefulWidget {
     _state = new _SingleDigitState(textStyle, boxDecoration, 0, this.initialValue);
     return _state;
   }
-  
+
   setValue(newValue) {
     if (_state != null) {
       _state._setValue(newValue);
@@ -27,7 +27,7 @@ class SingleDigit extends StatefulWidget {
   }
 }
 
-class _SingleDigitState extends State<SingleDigit> {
+class _SingleDigitState extends State<SingleDigit> with TickerProviderStateMixin {
 
   _SingleDigitState(this._textStyle, this._boxDecoration, this.previousValue, this.currentValue);
 
@@ -37,10 +37,39 @@ class _SingleDigitState extends State<SingleDigit> {
   int previousValue;
   int currentValue;
 
+  Animation<double> animation;
+  AnimationController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _initAnimation();
+  }
+
+  _initAnimation() {
+    controller = AnimationController(
+        duration: const Duration(milliseconds: 300), vsync: this);
+    animation = Tween<double>(
+            begin: previousValue.toDouble(),
+            end: currentValue.toDouble())
+        .animate(controller)
+          ..addListener(() {
+            setState(() {});
+          });
+    controller.forward();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    controller.dispose();
+  }
+
   _setValue(int newValue) {
     this.previousValue = this.currentValue;
     this.currentValue = newValue;
-    setState(() {});
+    controller.dispose();
+    _initAnimation();
   }
 
   @override
@@ -56,7 +85,7 @@ class _SingleDigitState extends State<SingleDigit> {
         child: ClipRect(
           clipper: CustomDigitClipper(digitSize),
             child: Transform.translate(
-            offset: Offset(0, - this.currentValue * digitSize.height),
+            offset: Offset(0, - this.animation.value * digitSize.height),
             child: Column(
               children: <Widget>[
                 for (var i = 0; i < 10; i++)

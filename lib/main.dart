@@ -37,8 +37,10 @@ class DigitDisplayDemo extends StatelessWidget {
                       min: 0,
                       max: 9,
                       onChanged: (newValue) {
-                        sliderValueProvider.setValue(newValue.toInt());
-                        singleDigitWidget.setValue(newValue.toInt());
+                        if (newValue.toInt() != sliderValueProvider.value.toInt()) {
+                          sliderValueProvider.setValue(newValue.toInt());
+                          singleDigitWidget.setValue(newValue.toInt());
+                        } 
                       });
                 },
               )

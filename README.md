@@ -1,10 +1,12 @@
 # animated_digit_display
 
-A new Flutter project.
+Flutter project for the medium tutorial:
+
+- [Flutter: Animated Multi-Digit Display](https://medium.com/@martin_8889/flutter-animated-multi-digit-display-1c9e45c99cfc)
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+This project is a Flutter application.
 
 A few resources to get you started if this is your first Flutter project:
 

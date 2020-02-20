@@ -1,4 +1,4 @@
-import 'package:animated_digit_display/single_digit.dart';
+import 'package:animated_digit_display/multiple_digit_counter.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -20,8 +20,12 @@ class MyApp extends StatelessWidget {
 class DigitDisplayDemo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    
-    final singleDigitWidget = SingleDigit();
+    final digitWidget = MultipleDigitCounter(
+        10,
+        false,
+        const TextStyle(color: Colors.grey, fontSize: 30),
+        253,
+        const BoxDecoration(color: Colors.black));
     return ChangeNotifierProvider(
       builder: (_) => SliderValueProvider(),
       child: Scaffold(
@@ -29,18 +33,20 @@ class DigitDisplayDemo extends StatelessWidget {
           body: Center(
               child: Column(
             children: <Widget>[
-              singleDigitWidget,
+              digitWidget,
               Consumer<SliderValueProvider>(
-                builder: (BuildContext _, SliderValueProvider sliderValueProvider, Widget __) {
+                builder: (BuildContext _,
+                    SliderValueProvider sliderValueProvider, Widget __) {
                   return Slider(
                       value: sliderValueProvider.value.toDouble(),
                       min: 0,
-                      max: 9,
+                      max: 2000,
                       onChanged: (newValue) {
-                        if (newValue.toInt() != sliderValueProvider.value.toInt()) {
+                        if (newValue.toInt() !=
+                            sliderValueProvider.value.toInt()) {
                           sliderValueProvider.setValue(newValue.toInt());
-                          singleDigitWidget.setValue(newValue.toInt());
-                        } 
+                          digitWidget.state.value = (newValue.toInt());
+                        }
                       });
                 },
               )

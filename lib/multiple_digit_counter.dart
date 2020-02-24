@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'single_digit.dart';
 
+final counterKey = GlobalKey();
+
 class MultipleDigitCounter extends StatefulWidget {
+
+
   
   int initialValue;
   int numberOfDigits;
@@ -9,22 +13,23 @@ class MultipleDigitCounter extends StatefulWidget {
   final TextStyle textStyle;
   final BoxDecoration boxDecoration;
 
-  _MultipleDigitCounterState _state;
+  
+
+  //MultipleDigitCounterState _state;
 
   /// state has to be accessible so that the value is accessible from the parent widget
-  _MultipleDigitCounterState get state => _state;
+  //MultipleDigitCounterState get state => _state;
 
-  MultipleDigitCounter(this.numberOfDigits, this.expandable, this.textStyle, this.initialValue, this.boxDecoration);
+  MultipleDigitCounter(this.numberOfDigits, this.expandable, this.textStyle, this.initialValue, this.boxDecoration, {Key key}): super(key: key);
 
   @override
-  _MultipleDigitCounterState createState() {
-    this._state = _MultipleDigitCounterState(this.numberOfDigits, this.expandable, this.initialValue, this.textStyle, this.boxDecoration);
-    return _state;
+  MultipleDigitCounterState createState() {
+    return  MultipleDigitCounterState(this.numberOfDigits, this.expandable, this.initialValue, this.textStyle, this.boxDecoration);
   } 
     
 }
 
-class _MultipleDigitCounterState extends State<MultipleDigitCounter> {
+class MultipleDigitCounterState extends State<MultipleDigitCounter> {
 
   int numberOfDigits;
   bool expandable;
@@ -72,7 +77,7 @@ class _MultipleDigitCounterState extends State<MultipleDigitCounter> {
     return val;
   }
 
-  _MultipleDigitCounterState(this.numberOfDigits, this.expandable, this._value, this._textStyle, this._boxDecoration);
+  MultipleDigitCounterState(this.numberOfDigits, this.expandable, this._value, this._textStyle, this._boxDecoration);
 
   @override
   Widget build(BuildContext context) {
